@@ -12,7 +12,7 @@ use App\Modules\Billing\Models\Country;
 use App\Modules\Billing\Pipes\GermanyProductTaxPipe;
 use App\Modules\Billing\Pipes\GreeceProductTaxPipe;
 use App\Modules\Billing\Pipes\ItalyProductTaxPipe;
-use Illuminate\Contracts\Pipeline\Pipeline;
+use Illuminate\Pipeline\Pipeline;
 
 final class CalculatorService implements CalculatorServiceContract
 {
@@ -26,7 +26,7 @@ final class CalculatorService implements CalculatorServiceContract
         $countryId = $this->getCountryIdByTaxNumber($dto->getTaxNumber());
         $product   = $this->productQuery->getById($dto->getProductId());
 
-        return app(Pipeline::class)
+        return (int) app(Pipeline::class)
             ->send(new CalculatePriceWithTaxDTO($product->getPrice(), $countryId))
             ->through([
                 GermanyProductTaxPipe::class,

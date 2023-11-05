@@ -14,7 +14,7 @@ final class PriceDTO
     public static function fromRequest(Request $request): self
     {
         $self            = new self();
-        $self->productId = $request->input('productId');
+        $self->productId = (int)$request->input('productId');
         $self->taxNumber = $request->input('taxNumber');
 
         return $self;
